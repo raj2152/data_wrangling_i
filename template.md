@@ -182,3 +182,21 @@ fellow_df = read_excel("data/LotR_Words.xlsx", range = "B3:D6")
 ``` r
 pulse_df = read_sas("data/public_pulse_data.sas7bdat")
 ```
+
+## Why to never use ‘read.csv’
+
+It will always print things as a dataframe instead of a tibble.
+Read\_csv is preferred. ‘read.csv’ doesn’t give ‘tibble’ and that’s
+really bad.
+
+``` r
+litters_df_base = read.csv("data/FAS_litters.csv")
+```
+
+## Exporting data
+
+There’s a good way to write data out
+
+``` r
+write_csv(fellow_df, "data/fellowship_words.csv")
+```

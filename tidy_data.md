@@ -64,6 +64,8 @@ pulse_data =
   mutate(visit = recode(visit, "bl" = "00m"))
 ```
 
+(don’t use `gather()`, just use `pivot_longer()`)
+
 ## `pivot_wider`
 
 Make up some data!
@@ -88,6 +90,8 @@ knitr::kable()
 |:----------|----:|-----:|
 | treatment | 4.0 |    8 |
 | placebo   | 3.5 |    4 |
+
+(don’t use `spread()`, just use `pivot_wider()`)
 
 ## Binding rows
 
@@ -127,7 +131,8 @@ lotr_tidy =
 
 ## Joining datasets
 
-Import and clean the FAS datasets.
+Import and clean the FAS datasets. This imports and cleans litters and
+pups data.
 
 ``` r
 pups_df =
@@ -152,7 +157,8 @@ litters_df =
   read_csv("./data/FAS_litters.csv") %>% 
   janitor::clean_names() %>% 
   relocate(litter_number) %>% 
-  separate(group, into = c("dose", "day_of_tx"), sep =3)
+  separate(group, into = c("dose", "day_of_tx"), sep = 3) %>% 
+  mutate(dose = str_to_lower(dose))
 ```
 
     ## Rows: 49 Columns: 8

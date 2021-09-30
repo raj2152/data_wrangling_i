@@ -5,6 +5,8 @@ output: github_document
 
 ```{r setup}
 library(tidyverse)
+library(readxl)
+library(haven)
 ```
 
 ## `pivot_longer`
@@ -26,6 +28,10 @@ pulse_data_tidy =
     names_to = "visit",
     names_prefix = "bdi_score_",
     values_to = "bdi"
+  ) %>% 
+  mutate(
+    visit = replace(visit, visit == "bl", "00m"),
+    visit = factor(visit)
   )
 ```
 
@@ -49,18 +55,19 @@ pulse_data =
 Make up some data!
 
 ```{r}
-analysis_result = 
+analysis_df = 
   tibble(
     group = c("treatment", "treatment", "placebo", "placebo"),
     time = c("pre", "post", "pre", "post"),
     mean = c(4, 8, 3.5, 4)
   )
 
-analysis_result %>% 
+analysis_df %>% 
   pivot_wider(
     names_from = "time",
     values_from = "mean"
-  )
+  ) %>% 
+knitr::kable()
 ```
 
 

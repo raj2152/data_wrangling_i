@@ -16,6 +16,11 @@ library(tidyverse)
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
+``` r
+library(readxl)
+library(haven)
+```
+
 ## `pivot_longer`
 
 Load the PULSE data.
@@ -36,6 +41,10 @@ pulse_data_tidy =
     names_to = "visit",
     names_prefix = "bdi_score_",
     values_to = "bdi"
+  ) %>% 
+  mutate(
+    visit = replace(visit, visit == "bl", "00m"),
+    visit = factor(visit)
   )
 ```
 
@@ -60,25 +69,25 @@ pulse_data =
 Make up some data!
 
 ``` r
-analysis_result = 
+analysis_df = 
   tibble(
     group = c("treatment", "treatment", "placebo", "placebo"),
     time = c("pre", "post", "pre", "post"),
     mean = c(4, 8, 3.5, 4)
   )
 
-analysis_result %>% 
+analysis_df %>% 
   pivot_wider(
     names_from = "time",
     values_from = "mean"
-  )
+  ) %>% 
+knitr::kable()
 ```
 
-    ## # A tibble: 2 × 3
-    ##   group       pre  post
-    ##   <chr>     <dbl> <dbl>
-    ## 1 treatment   4       8
-    ## 2 placebo     3.5     4
+| group     | pre | post |
+|:----------|----:|-----:|
+| treatment | 4.0 |    8 |
+| placebo   | 3.5 |    4 |
 
 ## Binding rows
 

@@ -109,18 +109,20 @@ return_king =
   mutate(movie = "return_king")
 ```
 
-Bind all the rows together
+Bind all the rows together (never use `rbind()` always use
+`bind_rows()`)
 
 ``` r
 lotr_tidy = 
   bind_rows(fellowship_ring, two_towers, return_king) %>% 
   janitor::clean_names() %>% 
-  relocate(movie) %>% 
   pivot_longer(
     female:male,
-    names_to = "gender",
+    names_to = "sex",
     values_to = "words"
-  )
+  ) %>% 
+  mutate(race = str_to_lower(race)) %>% 
+  relocate(movie) 
 ```
 
 ## Joining datasets
